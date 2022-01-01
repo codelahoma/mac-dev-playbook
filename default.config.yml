@@ -45,42 +45,40 @@ homeshick_force: true
 
 homebrew_installed_packages:
   # - ansible # Installed via Pip.
+  - arduino-cli
+  - asdf
   - autoconf
   - bash-completion
-  - doxygen
+  - bat
+  - bzip
+  - cmake
+  - coreutils
   - direnv
+  - exa 
   - emacs-plus
   - fasd
   - fzf
-  - gettext
-  - gifsicle
   - git
-  - github/gh/gh
   - go
   - gpg
-  - httpie
-  - iperf
-  - libevent
-  - sqlite
-  - mcrypt
+  - hub
+  - imagemagick
   - nmap
-  - node
-  - nvm
-  - php
-  - ssh-copy-id
+  - pstree
+  - ripgrep
+  - the_silver_searcher
+  - tmux
+  - tree
   - cowsay
   - readline
   - openssl
   - pv
   - wget
-  - wrk
-  - zsh-history-substring-search
 
 homebrew_taps:
   - homebrew/core
   - homebrew/cask
   - d12frosted/emacs-plus
-  - github/gh
   - homebrew/cask-fonts
   - homebrew/cask-versions
   - homebrew/services
@@ -88,17 +86,23 @@ homebrew_taps:
 homebrew_cask_appdir: /Applications
 homebrew_cask_apps:
   - 1password
+  - adobe-creative-cloud
   - alfred
+  - arduino
   - chromedriver
   - docker
   - dropbox
   - google-chrome
   - hammerspoon
+  - hazel
   - iterm2
+  - karabiner-elements
+  - keyboard-maestro
+  - mailmate
+  - popclip
+  - setapp
   - slack
   - spotify
-  - adobe-creative-cloud
-  - mailmate
 
 # See `geerlingguy.mas` role documentation for usage instructions.
 mas_installed_apps:
