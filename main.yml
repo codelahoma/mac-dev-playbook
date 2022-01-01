@@ -36,7 +36,17 @@
     - import_tasks: tasks/sudoers.yml
       when: configure_sudoers
       tags: ['sudoers']
-
+    - import_tasks: tasks/fonts.yml
+      tags: ['fonts']
+    - import_tasks: tasks/zsh.yml
+      tags: ['zsh']
+    - import_tasks: tasks/spacemacs.yml
+      tags: ['spacemacs']
+    - import_tasks: tasks/tmux.yml
+      tags: ['tmux']
+    - name: relink homeshick files
+      shell:
+        cmd: homeshick link --force dotfiles
     - import_tasks: tasks/osx.yml
       when: configure_osx
       tags: ['osx']

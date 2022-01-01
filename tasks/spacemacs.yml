@@ -1,0 +1,23 @@
+- name: install spacemacs repo
+  ansible.builtin.git:
+    repo: https://github.com/syl20bnr/spacemacs
+    dest: "~/.emacs.d"
+    version: "develop"
+    force: yes
+
+- name: check if jekyll layer present
+  stat:
+    path: ~/.emacs.d/private/jekyll
+  register: jekyll_stats
+
+- name: install jekyll layer if not present
+  when: "not jekyll_stats.stat.exists"
+  block:
+    - name: install jekyll layer repo
+      ansible.builtin.git:
+        repo: https://github.com/bitjockey42/spacemacs-jekyll.git
+        dest: "~/.emacs.d/private/jekyll"
+
+- name: start emacs as a service
+  shell:
+    cmd: brew services start emacs-plus

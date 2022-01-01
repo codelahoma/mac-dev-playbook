@@ -1,0 +1,27 @@
+- name: "is oh-my-tmux installed?"
+  stat:
+    path: "~/.tmux"
+  register: tmux_stat
+
+- name: install oh-my-tmux if not already installad
+  when: "not tmux_stat.stat.exists"
+  block:
+    - name: install oh-my-tmux repo
+      ansible.builtin.git:
+        repo: "https://github.com/gpakosz/.tmux.git"
+        dest: "~/.tmux"
+
+- name: "is oh-my-tmux symlinked?"
+  stat:
+    path: "~/.tmux.conf"
+  register: tmux_symlink
+  tags: tmux
+
+- name: maybe create the symlink
+  when: "not (tmux_symlink.stat.exists and tmux_symlink.stat.islnk)"
+  block:
+    - name: create symlink
+      ansible.builtin.file:
+        src: ~/.tmux/.tmux.conf
+        dest: ~/.tmux.conf
+        state: link

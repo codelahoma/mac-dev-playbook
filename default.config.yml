@@ -48,6 +48,10 @@ homebrew_installed_packages:
   - autoconf
   - bash-completion
   - doxygen
+  - direnv
+  - emacs-plus
+  - fasd
+  - fzf
   - gettext
   - gifsicle
   - git
@@ -83,11 +87,16 @@ homebrew_taps:
 
 homebrew_cask_appdir: /Applications
 homebrew_cask_apps:
+  - 1password
+  - alfred
   - chromedriver
   - docker
   - dropbox
   - google-chrome
+  - hammerspoon
+  - iterm2
   - slack
+  - spotify
   - adobe-creative-cloud
   - mailmate
 

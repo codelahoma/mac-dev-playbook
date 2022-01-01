@@ -1,0 +1,27 @@
+- name: check whether oh-my-zsh is installed
+  stat:
+    path: ~/.oh-my-zsh
+  register: oh_my_stats
+  tags: &tags_for_zsh_tasks [ 'install', 'productivity', 'dotfiles', 'zsh' ]
+
+- name: Oh-My-Zsh
+  ansible.builtin.git:
+    repo: "https://github.com/codelahoma/oh-my-zsh.git"
+    dest: "~/.oh-my-zsh"
+    version: "rodk"
+  tags: *tags_for_zsh_tasks
+  when: oh_my_stats.stat.exists == False
+  become_user: rodk
+
+- name: install zsh-autosuggestions
+  ansible.builtin.git:
+    repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
+    dest: "~/.oh-my-zsh/plugins/zsh-autosuggestions"
+  tags: *tags_for_zsh_tasks
+
+
+- name: install powerlevel10k
+  ansible.builtin.git:
+    repo: "https://github.com/romkatv/powerlevel10k.git"
+    dest: "~/.oh-my-zsh/themes/powerlevel10k"
+  tags: *tags_for_zsh_tasks
