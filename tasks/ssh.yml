@@ -25,10 +25,12 @@
     - dotfiles
     - install
     - ssh
-- name: Set authorized key took from file
-  authorized_key:
-    user: "{{ lookup('env', 'USER') }}"
-    state: present
-    key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"
-  with_fileglob:
-  - "{{ lookup('env', 'HOME') }}/.ssh/*.pub"
+- name: copy public key to authorized keys
+  copy:
+    src: "{{ source_key }}.pub"
+    dest: "{{ lookup('env', 'HOME') }}/.ssh/authorized_keys"
+    mode: 0644
+  tags:
+    - dotfiles
+    - install
+    - ssh
