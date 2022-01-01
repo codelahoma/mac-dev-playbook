@@ -1,15 +1,16 @@
-# TODO: need to make spacemaces a role so it can get installed before homeshick
-- name: remove .emacs.d
-  ansible.builtin.file:
-    path: "~/.emacs.d"
-    state: absent
+- name: check if .emacs.d present
+  stat:
+    path: ~/.emacs.d
+  register: emacs_stats
 
-- name: install spacemacs repo
-  ansible.builtin.git:
-    repo: https://github.com/syl20bnr/spacemacs
-    dest: "~/.emacs.d"
-    version: "develop"
-    force: yes
+- name: install spacemacs
+  when: "not emacs_stats.stat.exists"
+  block:
+    - name: install spacemacs repo
+      ansible.builtin.git:
+        repo: https://github.com/syl20bnr/spacemacs
+        dest: "~/.emacs.d"
+        version: "develop"
 
 - name: check if jekyll layer present
   stat:
@@ -26,4 +27,4 @@
 
 - name: start emacs as a service
   shell:
-    cmd: brew services start emacs-plus
+    cmd: /opt/homebrew/bin/brew services start emacs-plus
