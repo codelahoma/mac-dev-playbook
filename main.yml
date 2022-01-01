@@ -46,7 +46,7 @@
       tags: ['tmux']
     - name: relink homeshick files
       shell:
-        cmd: homeshick link --force dotfiles
+        cmd: ~/.homesick/repos/homeshick/bin/homeshick link --force dotfiles
     - import_tasks: tasks/osx.yml
       when: configure_osx
       tags: ['osx']
