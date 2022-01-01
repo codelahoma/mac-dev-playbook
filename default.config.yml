@@ -43,6 +43,8 @@ homeshick_version: "v2.0.0"
 homeshick_dotfiles_repo: "https://github.com/codelahoma/dotfiles.git"
 homeshick_force: true
 
+homebrew_use_brewfile: false
+
 homebrew_installed_packages:
   # - ansible # Installed via Pip.
   - arduino-cli
