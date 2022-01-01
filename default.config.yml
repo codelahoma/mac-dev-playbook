@@ -55,26 +55,27 @@ homebrew_installed_packages:
   - bzip2
   - cmake
   - coreutils
+  - cowsay
   - direnv
-  - exa 
   - emacs-plus
+  - exa 
   - fasd
   - fzf
   - git
-  - go
   - gnupg
+  - go
   - hub
   - imagemagick
   - nmap
+  - openssl
   - pstree
+  - pv
+  - readline
   - ripgrep
   - the_silver_searcher
   - tmux
   - tree
-  - cowsay
-  - readline
-  - openssl
-  - pv
+  - wakatime-cli
   - wget
 
 homebrew_taps:
