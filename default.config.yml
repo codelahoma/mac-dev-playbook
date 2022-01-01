@@ -4,6 +4,7 @@ downloads: ~/.ansible-downloads/
 configure_dotfiles: false
 configure_terminal: false
 configure_osx: false
+configure_dotfiles: true
 
 # Set to 'true' to configure the Dock via dockutil.
 configure_dock: false
@@ -31,20 +32,18 @@ dockitems_persist: []
 #   path: "/Applications/Sublime Text.app/"
 #   pos: 5
 
-configure_sudoers: false
+configure_sudoers: true
 sudoers_custom_config: |
   # Allow users in admin group to use sudo with no password.
   %admin ALL=(ALL) NOPASSWD: ALL
 
-dotfiles_repo: https://github.com/geerlingguy/dotfiles.git
-dotfiles_repo_accept_hostkey: true
-dotfiles_repo_local_destination: ~/Development/GitHub/dotfiles
-dotfiles_files:
-  - .zshrc
-  - .gitignore
-  - .inputrc
-  - .osx
-  - .vimrc
+homeshick_user: "{{ lookup('env', 'USER') }}"
+homeshick_user_home: "{{ lookup('env', 'HOME') }}"
+
+homeshick_repository: "git://github.com/andsens/homeshick.git"
+homeshick_version: "v2.0.0"
+homeshick_dotfiles_repo: "https://github.com/codelahoma/dotfiles.git"
+homeshick_force: true
 
 homebrew_installed_packages:
   # - ansible # Installed via Pip.
