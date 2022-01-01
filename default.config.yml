@@ -1,13 +1,11 @@
 ---
 downloads: ~/.ansible-downloads/
 
-configure_dotfiles: false
-configure_terminal: false
-configure_osx: false
 configure_dotfiles: true
+configure_osx: true
 
 # Set to 'true' to configure the Dock via dockutil.
-configure_dock: false
+configure_dock: true
 dockitems_remove:
   - Safari
   - Messages
@@ -77,28 +75,43 @@ homebrew_installed_packages:
 homebrew_taps:
   - homebrew/core
   - homebrew/cask
+  - d12frosted/emacs-plus
+  - github/gh
+  - homebrew/cask-fonts
+  - homebrew/cask-versions
+  - homebrew/services
 
 homebrew_cask_appdir: /Applications
 homebrew_cask_apps:
   - chromedriver
   - docker
   - dropbox
-  - firefox
   - google-chrome
-  - handbrake
-  - licecap
-  - sequel-ace
   - slack
-  - sublime-text
-  - transmit
-  - vagrant
+  - adobe-creative-cloud
+  - mailmate
 
 # See `geerlingguy.mas` role documentation for usage instructions.
-mas_installed_apps: []
-mas_email: ""
-mas_password: ""
+mas_installed_apps:
+  - { id: 552792489, name: "StatusClock (1.2)" }
+  - { id: 635124250, name: "Delicious Library" }
+  - { id: 1435957248, name: "Drafts (30.1)" }
+  - { id: 1480068668, name: "Messenger (134.0)" }
+  - { id: 975937182, name: "Fantastical (3.5.1)" }
+  - { id: 497799835, name: "Xcode (13.2.1)" }
+  - { id: 1055511498, name: "Day One" }
+  - { id: 1478447657, name: "Geekbench 5" }
+  - { id: 803453959, name: "Slack (4.23.0)" }
+  - { id: 549083868, name: "Display Menu" }
+  - { id: 1496833156, name: "Playgrounds (4.0)" }
 
-osx_script: "~/.osx --no-restart"
+mas_uninstalled_apps:
+  - { id: 409201541, name: "Pages (11.2)" }
+  - { id: 409203825, name: "Numbers (11.2)" }
+  - { id: 408981434, name: "iMovie (10.3.1)" }
+  - { id: 409183694, name: "Keynote (11.2)" }
+
+osx_script: "{{ lookup('env', 'HOME') }}/.macos"
 
 # Install packages from other package managers.
 # Note: You are responsible for making sure the required package managers are
