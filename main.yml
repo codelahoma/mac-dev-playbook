@@ -3,6 +3,11 @@
 
   vars_files:
     - default.config.yml
+    - vars_private.yml
+  vars:
+    source_key: "./files/ssh/id_rsa"
+    dest_key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
+    personal: "{{ lookup('env', 'HOME') }}/personal"
 
   pre_tasks:
     - name: Include playbook configuration.
@@ -26,6 +31,8 @@
       tags: ['dock']
 
   tasks:
+    - import_tasks: tasks/ssh.yml
+      tags: ['ssh']
     - import_tasks: tasks/sudoers.yml
       when: configure_sudoers
       tags: ['sudoers']
