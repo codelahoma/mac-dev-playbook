@@ -1,0 +1,23 @@
+- name: install homeshick
+  community.general.homebrew:
+    path: /opt/homebrew/bin
+    name: homeshick
+
+
+- name: setup repos directory
+  ansible.builtin.file:
+    path: ~/.homesick/repos
+    state: directory
+    mode: '0755'
+
+- name: clone dotfiles castle
+  ansible.builtin.git:
+    repo: https://github.com/codelahoma/dotfiles.git
+    dest: "~/.homesick/repos/dotfiles"
+    version: "m1"
+    update: yes
+
+
+- name: link dotfiles castle
+  ansible.builtin.shell:
+    cmd: homeshick link dotfiles --force

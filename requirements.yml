@@ -1,7 +1,6 @@
 ---
 roles:
   - name: elliotweiser.osx-command-line-tools
-  - name: osx_provisioner.homeshick
 
 collections:
   - name: geerlingguy.mac

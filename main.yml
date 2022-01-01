@@ -18,8 +18,6 @@
 
   roles:
     - role: elliotweiser.osx-command-line-tools
-    - role: osx_provisioner.homeshick
-      tags: ['dotfiles']
     - role: geerlingguy.mac.homebrew
       tags: ['homebrew']
       when: configure_dotfiles
@@ -44,9 +42,8 @@
       tags: ['spacemacs']
     - import_tasks: tasks/tmux.yml
       tags: ['tmux']
-    - name: relink homeshick files
-      shell:
-        cmd: ~/.homesick/repos/homeshick/bin/homeshick link --force dotfiles
+    - import_tasks: tasks/dotfiles.yml
+      tags: ['dotfiles']
     - import_tasks: tasks/osx.yml
       when: configure_osx
       tags: ['osx']
