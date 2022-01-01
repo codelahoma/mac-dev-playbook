@@ -50,7 +50,7 @@ homebrew_installed_packages:
   - autoconf
   - bash-completion
   - bat
-  - bzip
+  - bzip2
   - cmake
   - coreutils
   - direnv
