@@ -1,0 +1,17 @@
+- name: install svn for font repos
+  community.general.homebrew:
+    path: /opt/homebrew/bin
+    name: svn
+- name: install fonts
+  community.general.homebrew_cask:
+    path: /opt/homebrew/bin
+    name:
+      - "font-3270-nerd-font"
+      - "font-cousine-nerd-font"
+      - "font-hack-nerd-font"
+      - "font-im-writing-nerd-font"
+      - "font-inconsolata-for-powerline"
+      - "font-inconsolata-g-for-powerline"
+      - "font-inconsolata-nerd-font"
+      - "font-iosevka"
+      - "font-iosevka-nerd-font"
