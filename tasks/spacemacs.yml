@@ -1,3 +1,9 @@
+# TODO: need to make spacemaces a role so it can get installed before homeshick
+- name: remove .emacs.d
+  ansible.builtin.file:
+    path: "~/.emacs.d"
+    state: absent
+
 - name: install spacemacs repo
   ansible.builtin.git:
     repo: https://github.com/syl20bnr/spacemacs
