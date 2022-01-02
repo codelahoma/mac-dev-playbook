@@ -8,6 +8,9 @@
     source_key: "./files/ssh/id_rsa"
     dest_key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
     personal: "{{ lookup('env', 'HOME') }}/personal"
+    work: "{{ lookup('env', 'HOME') }}/work"
+    github: "{{ lookup('env', 'HOME') }}/github"
+
 
   pre_tasks:
     - name: Include playbook configuration.
