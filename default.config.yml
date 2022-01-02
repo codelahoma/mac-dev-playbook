@@ -52,12 +52,15 @@ homebrew_installed_packages:
   - emacs-plus
   - exa 
   - fasd
+  - fx
   - fzf
   - git
   - gnupg
   - go
   - hub
   - imagemagick
+  - jq
+  - mosh
   - nmap
   - openssl
   - pstree
@@ -84,6 +87,8 @@ homebrew_cask_apps:
   - alfred
   - arduino
   - chromedriver
+  - devonagent
+  - devonthink
   - docker
   - dropbox
   - google-chrome
