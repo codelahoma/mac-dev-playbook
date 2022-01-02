@@ -155,7 +155,7 @@ defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 # Set a blazingly fast keyboard repeat rate
-defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain KeyRepeat -int 4
 defaults write NSGlobalDomain InitialKeyRepeat -int 10
 
 # Set language and text formats
@@ -763,7 +763,7 @@ defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
 defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
 
 # Automatically download apps purchased on other Macs
-# defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
+defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
 
 # Turn on app auto-update
 # defaults write com.apple.commerce AutoUpdate -bool true
