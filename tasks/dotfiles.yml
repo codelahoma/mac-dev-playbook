@@ -1,6 +1,5 @@
 - name: install homeshick
   community.general.homebrew:
-    path: /opt/homebrew/bin
     name: homeshick
 
 

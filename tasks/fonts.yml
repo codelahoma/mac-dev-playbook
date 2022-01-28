@@ -1,11 +1,9 @@
 # install svn here because we might want to just run the fonts task
 - name: install svn for font repos
   community.general.homebrew:
-    path: /opt/homebrew/bin
     name: svn
 - name: install fonts
   community.general.homebrew_cask:
-    path: /opt/homebrew/bin
     name:
       - "font-3270-nerd-font"
       - "font-cousine-nerd-font"
