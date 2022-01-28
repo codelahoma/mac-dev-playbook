@@ -60,6 +60,7 @@ homebrew_installed_packages:
   - hub
   - imagemagick
   - jq
+  - lua@5.3
   - mosh
   - nmap
   - openssl
