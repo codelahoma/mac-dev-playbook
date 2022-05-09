@@ -90,33 +90,37 @@ homebrew_cask_apps:
   - alfred
   - arduino
   - chromedriver
-  - devonagent
-  - devonthink
+  - dash
+  # - devonagent
+  # - devonthink
   - docker
   - dropbox
   - google-chrome
   - hammerspoon
-  - hazel
+  # - hazel
   - iterm2
   - karabiner-elements
   - keyboard-maestro
-  - mailmate
+  # - mailmate
+  - microsoft-excel
   - popclip
+  - postman
   - setapp
   - slack
   - spotify
+  - textexpander
+  - zoom
 
 # See `geerlingguy.mas` role documentation for usage instructions.
 mas_installed_apps:
   - { id: 552792489, name: "StatusClock (1.2)" }
-  - { id: 635124250, name: "Delicious Library" }
-  - { id: 1435957248, name: "Drafts (30.1)" }
+  # - { id: 635124250, name: "Delicious Library" }
+  # - { id: 1435957248, name: "Drafts (30.1)" }
   - { id: 1480068668, name: "Messenger (134.0)" }
   - { id: 975937182, name: "Fantastical (3.5.1)" }
   - { id: 497799835, name: "Xcode (13.2.1)" }
   - { id: 1055511498, name: "Day One" }
   - { id: 1478447657, name: "Geekbench 5" }
-  - { id: 803453959, name: "Slack (4.23.0)" }
   - { id: 549083868, name: "Display Menu" }
   - { id: 1496833156, name: "Playgrounds (4.0)" }
 
