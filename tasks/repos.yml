@@ -1,0 +1,28 @@
+- name: Ensure personal directory exists.
+  file:
+    dest: "{{ {{ lookup('env', 'HOME') }}/personal }}"
+    mode: 0744
+    state: directory
+  tags:
+    - repos
+
+- name: Ensure work directory exists.
+  file:
+    dest: "{{ {{ lookup('env', 'HOME') }}/work }}"
+    mode: 0744
+    state: directory
+  tags:
+    - repos
+
+- name: Ensure github directory exists.
+  file:
+    dest: "{{ {{ lookup('env', 'HOME') }}/github }}"
+    mode: 0744
+    state: directory
+  tags:
+    - repos
+
+- name: install blog repo
+  ansible.builtin.git:
+    repo: https://github.com/codelahoma/codelahoma.github.io
+    dest: "~/personal/codelahoma.com""
