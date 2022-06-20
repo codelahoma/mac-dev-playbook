@@ -40,7 +40,6 @@ homebrew_use_brewfile: false
 homebrew_installed_packages:
   # - ansible # Installed via Pip.
   - arduino-cli
-  - asdf
   - autoconf
   - bash-completion
   - bat
@@ -48,7 +47,6 @@ homebrew_installed_packages:
   - cmake
   - coreutils
   - cowsay
-  - direnv
   - emacs-plus
   - exa 
   - fasd
