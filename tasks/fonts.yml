@@ -5,18 +5,20 @@
 - name: install fonts
   community.general.homebrew_cask:
     name:
-      - "font-3270-nerd-font"
-      - "font-cousine-nerd-font"
-      - "font-et-book"
-      - "font-fira-mono-nerd-font"
-      - "font-fira-sans"
-      - "font-hack-nerd-font"
-      - "font-im-writing-nerd-font"
-      - "font-inconsolata-for-powerline"
-      - "font-inconsolata-g-for-powerline"
-      - "font-inconsolata-nerd-font"
-      - "font-iosevka"
-      - "font-iosevka-nerd-font"
-      - "font-merriweather"
-      - "font-sauce-code-pro-nerd-font"
-      - "font-source-sans-pro"
+      - font-3270-nerd-font
+      - font-cousine-nerd-font
+      - font-et-book
+      - font-fira-code
+      - font-fira-code-nerd-font
+      - font-fira-mono-nerd-font
+      - font-fira-sans
+      - font-hack-nerd-font
+      - font-im-writing-nerd-font
+      - font-inconsolata-for-powerline
+      - font-inconsolata-g-for-powerline
+      - font-inconsolata-nerd-font
+      - font-iosevka
+      - font-iosevka-nerd-font
+      - font-merriweather
+      - font-sauce-code-pro-nerd-font
+      - font-source-sans-pro
