@@ -55,7 +55,7 @@ elif ! xcode-select -p &> /dev/null; then
     print_warning "Please complete the Xcode Command Line Tools installation in the popup window."
     print_warning "This may take several minutes..."
     print_warning "Press ENTER when the installation is complete..."
-    read -r
+    read -r < /dev/tty
     
     # Verify installation with a retry
     if ! xcode-select -p &> /dev/null; then
@@ -157,7 +157,7 @@ fi
 if [[ ! -f "$INSTALL_DIR/config.yml" ]]; then
     print_info "No config.yml found. You can create one to override defaults."
     echo ""
-    read -p "Would you like to create a minimal config.yml now? (y/N): " -n 1 -r
+    read -p "Would you like to create a minimal config.yml now? (y/N): " -n 1 -r < /dev/tty
     echo ""
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         cat > "$INSTALL_DIR/config.yml" <<EOF
@@ -180,7 +180,7 @@ echo ""
 print_info "Ready to run the Ansible playbook!"
 print_warning "The playbook will configure your Mac with development tools and settings."
 echo ""
-read -p "Do you want to run the playbook now? (y/N): " -n 1 -r
+read -p "Do you want to run the playbook now? (y/N): " -n 1 -r < /dev/tty
 echo ""
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
