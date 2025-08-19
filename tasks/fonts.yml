@@ -7,6 +7,11 @@
     name:
       - "font-3270-nerd-font"
       - "font-cousine-nerd-font"
+      - "font-fira-code-nerd-font"
+      - "font-fira-mono-nerd-font"
+      - "font-fira-sans"
+      - "font-fira-sans-condensed"
+      - "font-fira-sans-extra-condensed"
       - "font-hack-nerd-font"
       - "font-im-writing-nerd-font"
       - "font-inconsolata-for-powerline"

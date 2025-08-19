@@ -41,6 +41,8 @@
       tags: ['fonts']
     - import_tasks: tasks/zsh.yml
       tags: ['zsh']
+    - import_tasks: tasks/asdf.yml
+      tags: ['asdf']
     - import_tasks: tasks/spacemacs.yml
       tags: ['spacemacs']
     - import_tasks: tasks/tmux.yml

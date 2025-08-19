@@ -1,0 +1,49 @@
+---
+# Setup asdf tool versions
+
+- name: Ensure .tool-versions file exists
+  copy:
+    content: |
+      nodejs 24.6.0
+      direnv 2.31.0
+    dest: "{{ ansible_env.HOME }}/.tool-versions"
+    force: no  # Don't overwrite if it exists
+  tags: ['asdf', 'direnv']
+
+- name: Install asdf plugins
+  shell: |
+    source $(brew --prefix asdf)/libexec/asdf.sh
+    asdf plugin list | grep -q "{{ item }}" || asdf plugin add {{ item }}
+  args:
+    executable: /bin/zsh
+  loop:
+    - nodejs
+    - direnv
+  tags: ['asdf', 'direnv']
+
+- name: Install tool versions from .tool-versions
+  shell: |
+    source $(brew --prefix asdf)/libexec/asdf.sh
+    cd {{ ansible_env.HOME }}
+    asdf install
+  args:
+    executable: /bin/zsh
+  tags: ['asdf', 'direnv']
+
+- name: Set global tool versions
+  shell: |
+    source $(brew --prefix asdf)/libexec/asdf.sh
+    asdf global nodejs 24.6.0
+    asdf global direnv 2.31.0
+  args:
+    executable: /bin/zsh
+  tags: ['asdf', 'direnv']
+
+- name: Setup asdf-direnv
+  shell: |
+    source $(brew --prefix asdf)/libexec/asdf.sh
+    asdf direnv setup --shell zsh --version 2.31.0
+  args:
+    executable: /bin/zsh
+  ignore_errors: yes  # May fail if already setup
+  tags: ['asdf', 'direnv']

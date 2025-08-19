@@ -1,0 +1,82 @@
+---
+# Custom AI app installations not available via Homebrew
+
+# Perplexity AI - Mac App Store version
+# To enable, add the App Store ID to mas_installed_apps in your config
+# App Store ID: 6714467650
+# Example:
+#   mas_installed_apps:
+#     - { id: 6714467650, name: "Perplexity - Ask Anything" }
+
+# Alternative: Install unofficial Perplexity Electron app from GitHub
+- name: Check if Perplexity AI Desktop is installed
+  stat:
+    path: /Applications/Perplexity AI.app
+  register: perplexity_app
+  tags: ['ai-apps']
+
+- name: Download Perplexity AI Desktop (unofficial Electron app)
+  when: not perplexity_app.stat.exists and install_perplexity_electron|default(false)
+  block:
+    - name: Get latest Perplexity AI release
+      uri:
+        url: https://api.github.com/repos/inulute/perplexity-ai-app/releases/latest
+      register: perplexity_release
+      tags: ['ai-apps']
+
+    - name: Download Perplexity AI DMG
+      get_url:
+        url: "{{ perplexity_release.json.assets | selectattr('name', 'match', '.*macOS.dmg') | map(attribute='browser_download_url') | first }}"
+        dest: /tmp/perplexity-ai.dmg
+      tags: ['ai-apps']
+
+    - name: Mount Perplexity AI DMG
+      command: hdiutil attach /tmp/perplexity-ai.dmg -nobrowse -noautoopen
+      register: perplexity_mount
+      tags: ['ai-apps']
+
+    - name: Copy Perplexity AI to Applications
+      copy:
+        src: "/Volumes/Perplexity AI/Perplexity AI.app"
+        dest: /Applications/
+        remote_src: yes
+      tags: ['ai-apps']
+
+    - name: Unmount Perplexity AI DMG
+      command: hdiutil detach "/Volumes/Perplexity AI"
+      tags: ['ai-apps']
+
+    - name: Clean up Perplexity AI DMG
+      file:
+        path: /tmp/perplexity-ai.dmg
+        state: absent
+      tags: ['ai-apps']
+
+# Google Gemini CLI installation
+- name: Install Gemini CLI from GitHub
+  when: install_gemini_cli|default(false)
+  block:
+    - name: Clone Gemini CLI repository
+      git:
+        repo: https://github.com/google-gemini/gemini-cli.git
+        dest: "{{ ansible_env.HOME }}/github/gemini-cli"
+        version: main
+      tags: ['ai-apps']
+
+    - name: Install Gemini CLI dependencies
+      npm:
+        path: "{{ ansible_env.HOME }}/github/gemini-cli"
+        state: present
+      tags: ['ai-apps']
+
+    - name: Create symlink for Gemini CLI
+      file:
+        src: "{{ ansible_env.HOME }}/github/gemini-cli/bin/gemini"
+        dest: /usr/local/bin/gemini
+        state: link
+      become: yes
+      tags: ['ai-apps']
+
+# Note: Google Gemini desktop app doesn't exist
+# Users should access it via gemini.google.com in their browser
+# or use the Gemini CLI tool installed above

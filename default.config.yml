@@ -73,14 +73,10 @@ homebrew_installed_packages:
   - tree
   - wakatime-cli
   - wget
+  - zsh-syntax-highlighting
 
 homebrew_taps:
-  - homebrew/core
-  - homebrew/cask
   - d12frosted/emacs-plus
-  - homebrew/cask-fonts
-  - homebrew/cask-versions
-  - homebrew/services
 
 homebrew_cask_accept_external_apps: true
 
@@ -88,19 +84,23 @@ homebrew_cask_appdir: /Applications
 homebrew_cask_apps:
   - 1password
   - alfred
-  - arduino
+  - arduino-ide
+  - chatgpt
   - chromedriver
+  - claude
+  - claude-code
   - devonagent
   - devonthink
-  - docker
+  - orbstack
   - dropbox
   - google-chrome
+  - google-drive
   - hammerspoon
   - hazel
   - iterm2
   - karabiner-elements
   - keyboard-maestro
-  - mailmate
+  - lm-studio
   - popclip
   - setapp
   - slack
@@ -119,6 +119,7 @@ mas_installed_apps:
   - { id: 803453959, name: "Slack (4.23.0)" }
   - { id: 549083868, name: "Display Menu" }
   - { id: 1496833156, name: "Playgrounds (4.0)" }
+  - { id: 6714467650, name: "Perplexity - Ask Anything" }
 
 # mas_uninstalled_apps:
 #   - { id: 409201541, name: "Pages (11.2)" }

@@ -25,3 +25,9 @@
     repo: "https://github.com/romkatv/powerlevel10k.git"
     dest: "~/.oh-my-zsh/themes/powerlevel10k"
   tags: *tags_for_zsh_tasks
+
+- name: install fzf-git.sh
+  ansible.builtin.git:
+    repo: "https://github.com/junegunn/fzf-git.sh.git"
+    dest: "~/fzf-git.sh"
+  tags: *tags_for_zsh_tasks
