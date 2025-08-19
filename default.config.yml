@@ -101,7 +101,6 @@ homebrew_cask_apps:
   - karabiner-elements
   - keyboard-maestro
   - lm-studio
-  - popclip
   - setapp
   - slack
   - spotify

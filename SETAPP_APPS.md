@@ -8,6 +8,7 @@ After running the playbook, install these apps through Setapp:
 - [ ] Keep It Shot - Screenshot management
 - [ ] Magic Window Air - Dynamic desktop wallpapers
 - [ ] Marked - Markdown preview
+- [ ] PopClip - Text selection enhancement tool
 - [ ] Prizmo - OCR and document scanning
 - [ ] Spark Mail - Email client
 
