@@ -50,8 +50,7 @@ homebrew_installed_packages:
   - cowsay
   - direnv
   - emacs-plus
-  - exa 
-  - fasd
+  - eza  # Modern replacement for exa
   - fx
   - fzf
   - git
@@ -60,7 +59,7 @@ homebrew_installed_packages:
   - hub
   - imagemagick
   - jq
-  - lua@5.3
+  - lua  # Current version, @5.3 is deprecated
   - mosh
   - nmap
   - openssl
@@ -73,6 +72,7 @@ homebrew_installed_packages:
   - tree
   - wakatime-cli
   - wget
+  - zoxide  # Modern replacement for fasd - smart directory jumping
   - zsh-syntax-highlighting
 
 homebrew_taps:
