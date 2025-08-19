@@ -142,15 +142,33 @@ fi
 print_info "Installing Ansible Galaxy requirements..."
 ansible-galaxy install -r requirements.yml
 
-# 9. Set up vault password if provided
+# 9. Set up vault password if provided or prompt for it
 if [[ -n "$VAULT_PASS" ]]; then
     print_info "Setting up Ansible vault password..."
     echo "$VAULT_PASS" > ~/.ansible_vault_pass
     chmod 600 ~/.ansible_vault_pass
     VAULT_ARGS="--vault-password-file ~/.ansible_vault_pass"
 else
-    VAULT_ARGS=""
-    print_warning "No vault password provided. You may be prompted for passwords during playbook execution."
+    # Check if vars_private.yml exists (which requires vault password)
+    if [[ -f "$INSTALL_DIR/vars_private.yml" ]]; then
+        print_warning "Found encrypted vars_private.yml file."
+        echo ""
+        read -sp "Enter Ansible vault password (or press ENTER to skip): " vault_password < /dev/tty
+        echo ""
+        
+        if [[ -n "$vault_password" ]]; then
+            echo "$vault_password" > ~/.ansible_vault_pass
+            chmod 600 ~/.ansible_vault_pass
+            VAULT_ARGS="--vault-password-file ~/.ansible_vault_pass"
+            print_status "Vault password saved temporarily"
+        else
+            VAULT_ARGS="--ask-vault-pass"
+            print_info "You will be prompted for the vault password during playbook execution"
+        fi
+    else
+        VAULT_ARGS=""
+        print_info "No encrypted files detected"
+    fi
 fi
 
 # 10. Create config.yml if user wants to customize
@@ -186,18 +204,30 @@ echo ""
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     print_info "Running Ansible playbook..."
     
-    # Check if we need sudo password
-    if [[ -z "$VAULT_ARGS" ]]; then
-        print_warning "You will be prompted for your sudo password..."
-        ansible-playbook main.yml --ask-become-pass
-    else
-        # Check if vars_private.yml exists and contains become password
-        if grep -q "ansible_become_password" vars_private.yml 2>/dev/null; then
-            ansible-playbook main.yml $VAULT_ARGS
-        else
-            ansible-playbook main.yml $VAULT_ARGS --ask-become-pass
-        fi
+    # Determine which passwords we need
+    PLAYBOOK_ARGS=""
+    
+    # Add vault arguments if set
+    if [[ -n "$VAULT_ARGS" ]]; then
+        PLAYBOOK_ARGS="$PLAYBOOK_ARGS $VAULT_ARGS"
     fi
+    
+    # Check if we need sudo password
+    if [[ -f "$INSTALL_DIR/vars_private.yml" ]] && [[ "$VAULT_ARGS" == *"--vault-password-file"* ]]; then
+        # Try to decrypt and check for ansible_become_password
+        if ansible-vault view vars_private.yml --vault-password-file ~/.ansible_vault_pass 2>/dev/null | grep -q "ansible_become_password"; then
+            print_info "Using sudo password from vault"
+        else
+            print_warning "You will be prompted for your sudo password..."
+            PLAYBOOK_ARGS="$PLAYBOOK_ARGS --ask-become-pass"
+        fi
+    else
+        print_warning "You will be prompted for your sudo password..."
+        PLAYBOOK_ARGS="$PLAYBOOK_ARGS --ask-become-pass"
+    fi
+    
+    # Run the playbook
+    ansible-playbook main.yml $PLAYBOOK_ARGS
     
     if [[ $? -eq 0 ]]; then
         print_status "Playbook completed successfully!"
@@ -231,6 +261,13 @@ echo ""
 
 # Cleanup
 unset VAULT_PASS
+unset vault_password
+
+# Remove temporary vault password file if we created it during this session
+if [[ -z "$ANSIBLE_VAULT_PASSWORD" ]] && [[ -f ~/.ansible_vault_pass ]]; then
+    print_info "Cleaning up temporary vault password file..."
+    rm -f ~/.ansible_vault_pass
+fi
 
 # Source the new shell configuration if zsh
 if [[ "$SHELL" == *"zsh"* ]]; then
