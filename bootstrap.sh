@@ -15,6 +15,7 @@ REPO_URL="${REPO_URL:-https://github.com/codelahoma/mac-dev-playbook.git}"
 REPO_BRANCH="${REPO_BRANCH:-master}"
 INSTALL_DIR="${INSTALL_DIR:-$HOME/github/mac-dev-playbook}"
 VAULT_PASS="${ANSIBLE_VAULT_PASSWORD:-}"
+SKIP_XCODE_CHECK="${SKIP_XCODE_CHECK:-false}"
 
 # Colors for output
 RED='\033[0;31m'
@@ -44,20 +45,32 @@ fi
 print_info "Starting Mac setup process..."
 
 # 1. Install Xcode Command Line Tools
-if ! xcode-select -p &> /dev/null; then
+if [[ "$SKIP_XCODE_CHECK" == "true" ]]; then
+    print_warning "Skipping Xcode Command Line Tools check (SKIP_XCODE_CHECK=true)"
+elif ! xcode-select -p &> /dev/null; then
     print_info "Installing Xcode Command Line Tools..."
-    xcode-select --install
+    xcode-select --install 2>/dev/null || true
     
     # Wait for installation to complete
     print_warning "Please complete the Xcode Command Line Tools installation in the popup window."
-    print_warning "Press any key to continue after installation is complete..."
-    read -n 1 -s -r
+    print_warning "This may take several minutes..."
+    print_warning "Press ENTER when the installation is complete..."
+    read -r
     
-    # Verify installation
+    # Verify installation with a retry
     if ! xcode-select -p &> /dev/null; then
-        print_error "Xcode Command Line Tools installation failed or was cancelled."
-        exit 1
+        print_warning "Checking installation status..."
+        sleep 2
+        
+        # Check one more time
+        if ! xcode-select -p &> /dev/null; then
+            print_error "Xcode Command Line Tools installation not detected."
+            print_info "If you cancelled the installation, please run this script again."
+            print_info "If you believe the tools are installed, try running: xcode-select --reset"
+            exit 1
+        fi
     fi
+    print_status "Xcode Command Line Tools installation verified"
 else
     print_status "Xcode Command Line Tools already installed"
 fi
