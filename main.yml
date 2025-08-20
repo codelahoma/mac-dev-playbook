@@ -18,6 +18,31 @@
       with_fileglob:
         - "{{ playbook_dir }}/config.yml"
       tags: ['always']
+    
+    - name: Check if running in Parallels VM
+      shell: |
+        if system_profiler SPHardwareDataType 2>/dev/null | grep -q "Parallels"; then
+          echo "true"
+        elif ioreg -l | grep -q "Parallels"; then
+          echo "true"
+        elif [ -f "/System/Library/CoreServices/prl_disp_service" ]; then
+          echo "true"
+        else
+          echo "false"
+        fi
+      register: parallels_vm_check
+      changed_when: false
+      tags: ['always']
+    
+    - name: Set VM fact
+      set_fact:
+        running_in_vm: "{{ parallels_vm_check.stdout == 'true' }}"
+      tags: ['always']
+    
+    - name: Display VM detection result
+      debug:
+        msg: "Running in Parallels VM: {{ running_in_vm }}"
+      tags: ['always']
 
   roles:
     - role: elliotweiser.osx-command-line-tools
@@ -25,13 +50,15 @@
       tags: ['homebrew']
       when: configure_dotfiles
     - role: geerlingguy.mac.mas
-      when: mas_installed_apps or mas_installed_app_ids
+      when: (mas_installed_apps or mas_installed_app_ids) and not running_in_vm
       tags: ['mas']
     - role: geerlingguy.mac.dock
       when: configure_dock
       tags: ['dock']
 
   tasks:
+    - import_tasks: tasks/vm-apps.yml
+      tags: ['vm-apps']
     - import_tasks: tasks/ssh.yml
       tags: ['ssh']
     - import_tasks: tasks/sudoers.yml

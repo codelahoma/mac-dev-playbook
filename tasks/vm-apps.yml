@@ -1,0 +1,17 @@
+---
+# Install applications that are incompatible with VMs when running on physical hardware
+
+- name: Install VM-incompatible Homebrew cask apps (physical hardware only)
+  community.general.homebrew_cask:
+    name: "{{ item }}"
+    state: present
+    accept_external_apps: "{{ homebrew_cask_accept_external_apps }}"
+  loop: "{{ homebrew_cask_apps_vm_incompatible }}"
+  when: not running_in_vm
+  tags: ['homebrew', 'vm-apps']
+
+- name: Skip VM-incompatible apps message
+  debug:
+    msg: "Skipping {{ homebrew_cask_apps_vm_incompatible | join(', ') }} - incompatible with VM environment"
+  when: running_in_vm
+  tags: ['homebrew', 'vm-apps']

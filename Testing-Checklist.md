@@ -46,6 +46,12 @@
 
 ## Playbook Execution
 
+### VM Detection
+- [ ] Parallels VM detection works correctly
+- [ ] Shows "Running in Parallels VM: true/false" message
+- [ ] Mac App Store role skipped if in VM
+- [ ] Parallels apps skipped if in VM
+
 ### Core Roles
 - [ ] Command Line Tools role completes
 - [ ] Homebrew role configures taps

@@ -81,6 +81,12 @@ homebrew_taps:
 homebrew_cask_accept_external_apps: true
 
 homebrew_cask_appdir: /Applications
+
+# Apps that should not be installed in VMs
+homebrew_cask_apps_vm_incompatible:
+  - parallels
+  - parallels-toolbox
+
 homebrew_cask_apps:
   - 1password
   - alfred
@@ -102,8 +108,6 @@ homebrew_cask_apps:
   - keyboard-maestro
   - lm-studio
   - orbstack
-  - parallels
-  - parallels-toolbox
   - setapp
   - slack
   - spotify

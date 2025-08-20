@@ -204,6 +204,14 @@ echo ""
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     print_info "Running Ansible playbook..."
     
+    # Trigger sudo timestamp to avoid multiple password prompts
+    print_info "Authenticating sudo (you may be prompted for your password)..."
+    sudo -v
+    
+    # Keep sudo timestamp alive in background
+    while true; do sudo -n true; sleep 50; done 2>/dev/null &
+    SUDO_KEEPER_PID=$!
+    
     # Determine which passwords we need
     PLAYBOOK_ARGS=""
     
@@ -228,8 +236,14 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     
     # Run the playbook
     ansible-playbook main.yml $PLAYBOOK_ARGS
+    PLAYBOOK_EXIT_CODE=$?
     
-    if [[ $? -eq 0 ]]; then
+    # Kill the sudo keeper process
+    if [[ -n "$SUDO_KEEPER_PID" ]]; then
+        kill $SUDO_KEEPER_PID 2>/dev/null || true
+    fi
+    
+    if [[ $PLAYBOOK_EXIT_CODE -eq 0 ]]; then
         print_status "Playbook completed successfully!"
         echo ""
         print_info "Your Mac has been configured!"
