@@ -8,7 +8,26 @@
 
 This playbook installs and configures most of the software I use on my Mac for web and software development. Some things in macOS are slightly difficult to automate, so I still have a few manual installation steps, but at least it's all documented here.
 
-## Installation
+## Quick Start (Recommended)
+
+Run this one command to automatically install and configure everything:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/codelahoma/mac-dev-playbook/master/bootstrap.sh | bash
+```
+
+This bootstrap script will:
+- Install Xcode Command Line Tools
+- Install Homebrew
+- Install Python and Ansible
+- Clone this repository
+- Run the playbook
+
+The script handles all setup requirements automatically, including vault password prompts if you have encrypted files.
+
+## Manual Installation
+
+If you prefer to run the installation steps manually:
 
   1. Ensure Apple's command line tools are installed (`xcode-select --install` to launch the installer).
   2. [Install Ansible](https://docs.ansible.com/ansible/latest/installation_guide/index.html):
