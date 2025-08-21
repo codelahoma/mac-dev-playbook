@@ -16,6 +16,12 @@ Run this one command to automatically install and configure everything:
 curl -fsSL https://raw.githubusercontent.com/codelahoma/mac-dev-playbook/master/bootstrap.sh | bash
 ```
 
+Or if you encounter sudo/password issues with the piped command, download and run:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/codelahoma/mac-dev-playbook/master/bootstrap.sh -o bootstrap.sh && bash bootstrap.sh
+```
+
 This bootstrap script will:
 - Install Xcode Command Line Tools
 - Install Homebrew

@@ -19,29 +19,84 @@
         - "{{ playbook_dir }}/config.yml"
       tags: ['always']
     
-    - name: Check if running in Parallels VM
+    - name: Check if running in VM (Parallels/VMware)
       shell: |
-        if system_profiler SPHardwareDataType 2>/dev/null | grep -q "Parallels"; then
+        # Method 1: Check for Parallels Desktop app
+        if [ -d "/Applications/Parallels Desktop.app" ]; then
+          # We have Parallels installed, but are we IN a VM?
+          if ioreg -l 2>/dev/null | grep -q '"IOPlatformSerialNumber" = "Parallels-'; then
+            echo "true"
+          elif ls /dev/disk* 2>/dev/null | grep -q "disk0s1"; then
+            # Check if disk labels indicate virtual disk
+            if diskutil info disk0 2>/dev/null | grep -qi "parallels\|virtual"; then
+              echo "true"
+            else
+              echo "false"
+            fi
+          else
+            echo "false"
+          fi
+        # Method 2: Direct check for Parallels VM indicators
+        elif ls /System/Library/Extensions 2>/dev/null | grep -qi "prl_"; then
           echo "true"
-        elif ioreg -l | grep -q "Parallels"; then
+        # Method 3: Check for Parallels tools
+        elif [ -d "/Library/Parallels Guest Tools" ]; then
           echo "true"
-        elif [ -f "/System/Library/CoreServices/prl_disp_service" ]; then
+        # Method 4: Check hardware model for VM signatures
+        elif ioreg -l 2>/dev/null | grep -q "Parallels Virtual Platform"; then
+          echo "true"
+        # Method 5: Check for VMware
+        elif [ -f "/Library/Preferences/VMware Fusion/config" ]; then
+          echo "true"
+        # Method 6: Check system firmware vendor
+        elif ioreg -l 2>/dev/null | grep '"manufacturer" = ' | grep -qi "parallels\|vmware\|innotek"; then
           echo "true"
         else
           echo "false"
         fi
       register: parallels_vm_check
       changed_when: false
+      ignore_errors: true
       tags: ['always']
     
-    - name: Set VM fact
+    - name: Debug VM detection output
+      debug:
+        var: parallels_vm_check.stdout
+        verbosity: 1
+      tags: ['always']
+    
+    - name: Check if Mac App Store is accessible (secondary VM check)
+      shell: |
+        if command -v mas >/dev/null 2>&1; then
+          # Try to check MAS account status
+          if mas account 2>&1 | grep -q "Not signed in"; then
+            echo "mas_available"
+          elif mas account 2>&1 | grep -q "is not signed in"; then
+            echo "mas_available"
+          elif mas account 2>&1 | grep -E "^\w+@"; then
+            echo "mas_available"
+          else
+            echo "mas_unavailable"
+          fi
+        else
+          echo "mas_not_installed"
+        fi
+      register: mas_check
+      changed_when: false
+      ignore_errors: true
+      tags: ['always']
+    
+    - name: Set VM fact based on multiple checks
       set_fact:
-        running_in_vm: "{{ parallels_vm_check.stdout == 'true' }}"
+        running_in_vm: "{{ (parallels_vm_check.stdout == 'true') or (mas_check.stdout == 'mas_unavailable') }}"
       tags: ['always']
     
     - name: Display VM detection result
       debug:
-        msg: "Running in Parallels VM: {{ running_in_vm }}"
+        msg: |
+          Running in VM: {{ running_in_vm }}
+          VM detection: {{ parallels_vm_check.stdout }}
+          MAS availability: {{ mas_check.stdout }}
       tags: ['always']
 
   roles:

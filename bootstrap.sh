@@ -5,6 +5,9 @@
 # This script installs everything needed to run the Mac Development Playbook
 # Usage: curl -fsSL https://raw.githubusercontent.com/codelahoma/mac-dev-playbook/master/bootstrap.sh | bash
 #
+# Or to avoid sudo issues:
+# curl -fsSL https://raw.githubusercontent.com/codelahoma/mac-dev-playbook/master/bootstrap.sh -o bootstrap.sh && bash bootstrap.sh
+#
 # Or for a specific fork:
 # curl -fsSL https://raw.githubusercontent.com/[username]/mac-dev-playbook/[branch]/bootstrap.sh | bash
 
